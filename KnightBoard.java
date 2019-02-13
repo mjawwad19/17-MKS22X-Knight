@@ -48,7 +48,37 @@ public class KnightBoard{
   /*@throws IllegalStateException when the board contains non-zero values.
   @throws IllegalArgumentException when either parameter is negative
    or out of bounds.*/
-  //public int countSolutions(int startingRow, int startingCol){}
+  public int countSolutions(int startingRow, int startingCol){
+    if (startingRow < 0 ||
+        startingCol < 0 ||
+        startingRow >= board.length ||
+        startingCol >= board[0].length) {
+      throw new IllegalArgumentException();
+    }
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] != 0) {
+          throw new IllegalStateException();
+        }
+      }
+    }
+    return counter(startingRow, startingCol, 1);
+  }
+
+  private int counter(int row, int col, int level) {
+    int sum = 0;
+    if (level == board.length* board[0].length) return 1;
+    for (int move[] :moves) {
+      try {
+        if (board[row + move[0]][col + move[1]] == 0) {
+          board[row][col] = level;
+          sum += counter(row + move[0], col +move[1], level + 1);
+          board[row][col] = 0;
+        }
+      }catch (Exception e) {}
+      }
+      return sum;
+  }
 
   private boolean solveH(int row ,int col, int level) {
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
@@ -67,6 +97,7 @@ public class KnightBoard{
     return out;
   }
 
+  //just for updating correctly
   private void reset (int level) {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
@@ -74,7 +105,7 @@ public class KnightBoard{
       }
     }
   }
-
+  //clear if can't be added
   private void clear(int level) {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
@@ -87,8 +118,8 @@ public class KnightBoard{
   public static void main(String[] args) {
     KnightBoard a = new KnightBoard(7, 4);
     //System.out.println(a);
-    System.out.println(a.solve(0,0));
+    //System.out.println(a.solve(0,0));
     System.out.println(a);
-    //System.out.println(a);
+    System.out.println(a.countSolutions(0,0));
   }
 }
