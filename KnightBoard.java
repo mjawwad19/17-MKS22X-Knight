@@ -16,7 +16,7 @@ public class KnightBoard{
     String out = "";
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        if (board[i][j] == 0) out += "_ ";
+        if (board[i][j] == 0) out += "__ ";
         else if (board[i][j] < 10) out += " " + board[i][j] + " ";
         else out += board[i][j] + " ";
       }
@@ -29,7 +29,10 @@ public class KnightBoard{
   @throws IllegalArgumentException when either parameter is negative
    or out of bounds.*/
   public boolean solve(int startingRow, int startingCol){
-    if (startingRow < 0 || startingCol < 0 || startingRow > board.length -1 || startingCol > board[0].length - 1) {
+    if (startingRow < 0 ||
+        startingCol < 0 ||
+        startingRow >= board.length ||
+        startingCol >= board[0].length) {
       throw new IllegalArgumentException();
     }
     for (int i = 0; i < board.length; i++) {
@@ -39,17 +42,6 @@ public class KnightBoard{
         }
       }
     }
-    /*if (startingRow <= startingCol) {
-      if (startingCol%2 == 1 && startingRow%2 == 1 ||
-          startingRow == 1 ||
-          startingRow == 2 ||
-          startingRow == 4 ||
-          startingRow == 3 && (startingCol == 4 ||
-                              startingCol == 6 ||
-                              startingCol == 8)) {
-        return false;
-      }
-    }*/
     return solveH(startingRow, startingCol, 1);
   }
 
@@ -71,7 +63,7 @@ public class KnightBoard{
         reset(level);
       }
     }
-    if (out == false) clear(); //for false cases the original level is still present
+    if (out == false) clear(level); //for false cases the original level is still present
     return out;
   }
 
@@ -83,17 +75,17 @@ public class KnightBoard{
     }
   }
 
-  private void clear() {
+  private void clear(int level) {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        board[i][j] = 0;
+        if (board[i][j] == level) board[i][j] = 0;
       }
     }
   }
   // level is the # of the knight
 
   public static void main(String[] args) {
-    KnightBoard a = new KnightBoard(2, 2);
+    KnightBoard a = new KnightBoard(7, 4);
     //System.out.println(a);
     System.out.println(a.solve(0,0));
     System.out.println(a);
