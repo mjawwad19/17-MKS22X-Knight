@@ -1,6 +1,6 @@
 public class KnightBoard{
   private int[][] board;
-  private int[][] moves = {{2, 1},{-2, 1}, {2, -1}, {-2,-1}, {1, 2}, {-1,-2}, {-1, 2}, {1, -2}};
+  private int[][] moves = {{1,2}, {-1,2}, {-1,-2}, {1,-2}, {2,1}, {2, -1}, {-2, 1}, {-2, -1}};
   /*
   Initialize the board to the correct size and make them all 0's
   @throws IllegalArgumentException when either parameter is negative.
@@ -58,33 +58,44 @@ public class KnightBoard{
    or out of bounds.*/
   //public int countSolutions(int startingRow, int startingCol){}
 
-  private boolean solveH(int row ,int col, int level){
-          for (int[] mov: moves) {
-            int nR, nC;
-            if (row + mov[0] >= 0 && row + mov[0] < board.length &&
-                col + mov[1] >= 0 && col + mov[1] < board[0].length) {
-                  nR = row + mov[0];
-                  nC = col + mov[1];
-                  if (board[nR][nC] == 0) {
-                    board[nR][nC] = level + 1;
-                    if (solveH(nR, nC, level +1)) {
-                      return true;
-                    }
-                  }
-                  else {
-                    solveH(nR, nC, level);
-                  }
-          }
-        }
-    return false;
+  private boolean solveH(int row ,int col, int level) {
+    boolean out = false;
+    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) return false;
+    if (level > board.length * board[0].length) out = true;
+
+    if (board[row][col] == 0) {
+      board[row][col] = level;
+      for (int[] move: moves) {
+        if (solveH(row + move[0], col + move[1], level + 1)) out = true;
+        else reset(level);
+      }
+    }
+    if (out == false) clear(level);
+    return out;
   }
 
+  private void reset (int level) {
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] > level) board[i][j] = 0;
+      }
+    }
+  }
+
+  private void clear(int level) {
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] == level) board[i][j] = 0;
+      }
+    }
+  }
   // level is the # of the knight
 
   public static void main(String[] args) {
-    KnightBoard a = new KnightBoard(5, 6);
-    System.out.println(a);
+    KnightBoard a = new KnightBoard(7, 9);
+    //System.out.println(a);
     System.out.println(a.solve(0,0));
+    System.out.println(a);
     //System.out.println(a);
   }
 }
