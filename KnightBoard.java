@@ -28,7 +28,7 @@ public class KnightBoard{
   @throws IllegalArgumentException when either parameter is negative
    or out of bounds.*/
   public boolean solve(int startingRow, int startingCol){
-    if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board[0].length) {
+    if (startingRow < 0 || startingCol < 0 || startingRow > board.length -1 || startingCol > board[0].length - 1) {
       throw new IllegalArgumentException();
     }
     for (int i = 0; i < board.length; i++) {
