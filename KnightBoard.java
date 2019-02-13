@@ -1,5 +1,6 @@
 public class KnightBoard{
   private int[][] board;
+  private int[][] moves = {{2, 1},{-2, 1}, {2, -1}, {-2,-1}, {1, 2}, {-1,-2}, {-1, 2}, {1, -2}};
   /*
   Initialize the board to the correct size and make them all 0's
   @throws IllegalArgumentException when either parameter is negative.
@@ -38,7 +39,7 @@ public class KnightBoard{
         }
       }
     }
-    if (startingRow <= startingCol) {
+    /*if (startingRow <= startingCol) {
       if (startingCol%2 == 1 && startingRow%2 == 1 ||
           startingRow == 1 ||
           startingRow == 2 ||
@@ -48,8 +49,8 @@ public class KnightBoard{
                               startingCol == 8)) {
         return false;
       }
-    }
-    return true;
+    }*/
+    return solveH(startingRow, startingCol, 1);
   }
 
   /*@throws IllegalStateException when the board contains non-zero values.
@@ -57,11 +58,33 @@ public class KnightBoard{
    or out of bounds.*/
   //public int countSolutions(int startingRow, int startingCol){}
 
-  //Suggestion:
-  //private boolean solveH(int row ,int col, int level){}
+  private boolean solveH(int row ,int col, int level){
+          for (int[] mov: moves) {
+            int nR, nC;
+            if (row + mov[0] >= 0 && row + mov[0] < board.length &&
+                col + mov[1] >= 0 && col + mov[1] < board[0].length) {
+                  nR = row + mov[0];
+                  nC = col + mov[1];
+                  if (board[nR][nC] == 0) {
+                    board[nR][nC] = level + 1;
+                    if (solveH(nR, nC, level +1)) {
+                      return true;
+                    }
+                  }
+                  else {
+                    solveH(nR, nC, level);
+                  }
+          }
+        }
+    return false;
+  }
+
   // level is the # of the knight
 
-  /*public static void main(String[] args) {
+  public static void main(String[] args) {
     KnightBoard a = new KnightBoard(5, 6);
-    System.out.println(a);*/
+    System.out.println(a);
+    System.out.println(a.solve(0,0));
+    //System.out.println(a);
   }
+}
