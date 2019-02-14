@@ -125,7 +125,7 @@ public class KnightBoard{
   // level is the # of the knight
 
   public static void main(String[] args) {
-    KnightBoard a = new KnightBoard(7, 4);
+    /*KnightBoard a = new KnightBoard(7, 4);
     //System.out.println(a);
     System.out.println(a.solve(0,0));
     System.out.println(a);
@@ -139,6 +139,9 @@ public class KnightBoard{
     System.out.println(b.countSolutions(0,2)); //56
     System.out.println(b.countSolutions(2,2)); //64
     System.out.println(b.solve(1,2)); // false
-    System.out.println(b.countSolutions(1,2)); // 0 no solution
+    System.out.println(b.countSolutions(1,2)); // 0 no solution*/
+    KnightBoard c = new KnightBoard(7,7);
+    System.out.println(c.solve(0,0));
+    //System.out.println(c.countSolutions(0,0));
   }
 }
