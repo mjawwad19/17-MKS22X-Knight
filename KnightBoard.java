@@ -7,7 +7,7 @@ public class KnightBoard{
                           {2,1},
                           {2, -1},
                           {-2, 1},
-                          {-2, -1}};
+                          {-2, -1}}; //the possible moves in any direction
   /*
   Initialize the board to the correct size and make them all 0's
   @throws IllegalArgumentException when either parameter is negative.
@@ -19,6 +19,7 @@ public class KnightBoard{
     board = new int[startingRows][startingCols];
   }
 
+  /*displays the board*/
   public String toString(){
     String out = "";
     for (int i = 0; i < board.length; i++) {
@@ -87,7 +88,7 @@ public class KnightBoard{
       }
       return sum;
   }
-
+  //tail end recursion for touring through
   private boolean solveH(int row ,int col, int level) {
     if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
       return false;
