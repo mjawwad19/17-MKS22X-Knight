@@ -114,6 +114,16 @@ public class KnightBoard{
   }
   // level is the # of the knight
 
+  private void sortMoves (int row, int col) {
+    if (row == 0) {
+      if (col == 0) {}
+      if (col == board[0].length -1) {}
+    }
+    if (row == board.length -1) {
+      if (col == 0) {}
+      if (col == board[0].length -1) {}
+    }
+  }
 
   public static void main(String[] args) {
     KnightBoard a = new KnightBoard(7, 4);
