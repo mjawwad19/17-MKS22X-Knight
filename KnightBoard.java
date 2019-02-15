@@ -67,25 +67,31 @@ public class KnightBoard{
     return counter(startingRow, startingCol, 1);
   }
 
+  //checks to see if it's solved
+  private boolean finish(int level) {
+    return level == board.length*board[0].length;
+  }
   // tail end recursion for counting solutions
   private int counter(int row, int col, int level) {
     int sum = 0;
-    if (level == board.length* board[0].length) return 1;
+    if (finish(level)) return 1;
     for (int move[] :moves) {
       try {
-        if (empty(row + move[0], col+ move[1])) {
+        int mR = row + move[0];
+        int mC = col + move[1];
+        if (empty(mR,mC)) {
           board[row][col] = level;
-          sum += counter(row + move[0], col +move[1], level + 1);
+          sum += counter(mR, mC, level + 1);
           board[row][col] = 0;
         }
       }catch (Exception e) {}
       }
       return sum;
-  }
+    }
   //tail end recursion for touring through
   private boolean solveH(int row ,int col, int level) {
     if (runOff(row, col)) return false;
-    if (level > board.length * board[0].length) return true;
+    if (finish(level)) return true;
     boolean out = false;
     if (empty(row, col)){
       board[row][col] = level;
