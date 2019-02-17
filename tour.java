@@ -1,9 +1,9 @@
 import java.util.*;
-public class tour {
-  private ArrayList<Integer> com = new ArrayList();
+public class tour implements Comparable<tour> {
+  private ArrayList<Integer> com = new ArrayList<>(2);
   public tour(int rI, int cI) {
     com.add(rI);
-    com.add(cI);
+    com.add(cI);;
   }
 
   public int gR() {
@@ -14,11 +14,11 @@ public class tour {
   }
 
   public String toString() {
-    String out = "" + gR() + "," + gC();
-    return out;
+    return "{" + gR() + "," + gC() + "}";
     }
-  public static void main(String[] args) {
-    tour a = new tour(1,2);
-    System.out.println(a);
+
+  public int compareTo(tour other) {
+    if (gR() == other.gR() && gC() == other.gC()) return 0;
+    else return -1;
   }
 }
