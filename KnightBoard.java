@@ -1,6 +1,7 @@
 
 public class KnightBoard{
   private int[][] board;
+  private int stR, stC;
   private tour[] a = {
     new tour(1,2), new tour(2,1), new tour(-2, -1), new tour(-1,-2),
     new tour(-1,2), new tour(2, -1), new tour(-2, 1), new tour(1,-2)
@@ -13,14 +14,16 @@ public class KnightBoard{
     if (startingRows < 0 || startingCols < 0) {
       throw new IllegalArgumentException();
     }
-    board = new int[startingRows][startingCols];
+    stR = startingRows;
+    stC = startingCols;
+    board = new int[stR][stC];
   }
 
   /*displays the board*/
   public String toString(){
     String out = "";
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
+    for (int i = 0; i < stR; i++) {
+      for (int j = 0; j < stC; j++) {
         if (board[i][j] == 0) out += "__ ";
         else if (board[i][j] < 10) out += " " + board[i][j] + " ";
         else out += board[i][j] + " ";
@@ -31,8 +34,8 @@ public class KnightBoard{
   }
     /*@throws IllegalStateException when the board contains non-zero values.*/
   private void empty() {
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
+    for (int i = 0; i < stR; i++) {
+      for (int j = 0; j < stC; j++) {
         if (board[i][j] != 0) {
           throw new IllegalStateException();
         }
@@ -45,8 +48,8 @@ public class KnightBoard{
   private void runOff(int startingRow, int startingCol) {
      if (startingRow < 0 ||
          startingCol < 0 ||
-         startingRow >= board.length ||
-         startingCol >= board[0].length) {
+         startingRow >= stR ||
+         startingCol >= stC) {
        throw new IllegalArgumentException();
      }
    }
@@ -70,13 +73,13 @@ public class KnightBoard{
       if (col == 0) {
         ans = new tour[] {new tour(2, 1), new tour(1,2)};
       }
-      if (col == board[0].length -1) {
+      if (col == stC -1) {
         ans = new tour[] {new tour(-1, -2), new tour(-2,-1)};
       }
       if (col == 1) {
         ans = new tour[] {new tour(1,2), new tour(2, 1), new tour(2,-1)};
       }
-      if (col == board[0].length -2) {
+      if (col == stC -2) {
         ans = new tour[] {new tour(2,1), new tour(2, -1), new tour(1, -2)};
       }
       else {
@@ -84,17 +87,17 @@ public class KnightBoard{
                         new tour(1, -2), new tour(1, 2)};
       }
     }
-    if (row == board.length -1) {
+    if (row == stR -1) {
       if (col == 0) {
         ans = new tour[] {new tour(-1, 2), new tour(-2, 1)};
       }
-      if (col == board[0].length -1) {
+      if (col == stC -1) {
         ans = new tour[] {new tour(-2, -1), new tour(-1, -2)};
       }
       if (col == 1) {
         ans = new tour[] {new tour(-1, 2), new tour(-2, 1), new tour(-2, -1)};
       }
-      if (col == board[0].length -2) {
+      if (col == stC -2) {
         ans = new tour[] {new tour(-2, -1), new tour(-2, 1), new tour(-1, -2)};
       }
       else {
@@ -103,29 +106,45 @@ public class KnightBoard{
 
       }
     }
+    if (row == 1) {
+      if (col == 1) {
+        ans = new tour[] {new tour(-1, 2), new tour(1,2), new tour(2, 1), new tour(2, -1)};
+      }
+      if (col == stC -2) {
+        ans = new tour[] {new tour(1, -2), new tour(-1, -2), new tour(2, -1), new tour(2, 1)};
+      }
+    }
+    if (row == stR -2) {
+      if (col == 1) {
+      ans = new tour[] {new tour(-1, 2), new tour(1,2), new tour(-2, 1), new tour(-2, -1)};
+      }
+      if (col == stC -2) {
+        ans = new tour[] {new tour(-1, -2), new tour(1, -2), new tour(-2, -1), new tour(-2, 1)};
+      }
+    }
     if (col == 0) {
       if (row == 1) {
         ans = new tour[] {new tour(-1, 2), new tour(1, 2), new tour(2, 1)};
       }
-      if (row == board.length -2) {
+      if (row == stR -2) {
         ans = new tour[] {new tour(-1, 2), new tour(1,2), new tour(-2, 1)};
       }
     }
-    if (col == board[0].length -1) {
+    if (col == stC -1) {
       if (row == 1) {
         ans = new tour[] {new tour(-1, -2), new tour(1, -2), new tour(-2, -1)};
       }
-      if (row == board[0].length -2) {
+      if (row == stC -2) {
         ans = new tour[] {new tour(-1, -2), new tour(1,-2), new tour(2, -1)};
       }
     }
-    if (col == 0 && row != 0 && row != board.length -1
-    && row != 1 && row != board.length -2) {
+    if (col == 0 && row != 0 && row != stR -1
+    && row != 1 && row != stR -2) {
       ans = new tour[] {new tour(-2, 1), new tour(2, 1),
                         new tour(-1, 2), new tour(1, 2)};
     }
-    if (col == board[0].length-1 && row != 0 && row != board.length -1 &&
-        row != 1 && row != board.length -2) {
+    if (col == stC-1 && row != 0 && row != stR -1 &&
+        row != 1 && row != stR -2) {
       ans = new tour[] {new tour(-2, -1), new tour(2, -1),
                         new tour(-1, -2), new tour(1, -2)};
     }
@@ -136,7 +155,7 @@ public class KnightBoard{
   // tail end recursion for counting solutions
   private int counter(int row, int col, int level) {
     int sum = 0;
-    if (level == board.length* board[0].length) return 1;
+    if (level == stR* stC) return 1;
     tour[] s = sortMoves(row,col);
     for (int i = 0; i < s.length; i++) {
       try {
@@ -151,10 +170,10 @@ public class KnightBoard{
   }
   //tail end recursion for touring through
   private boolean solveH(int row ,int col, int level) {
-    if (row < 0 || row >= board.length || col < 0 || col >= board[0].length) {
+    if (row < 0 || row >= stR|| col < 0 || col >= stC) {
       return false;
     }
-    if (level > board.length * board[0].length) return true;
+    if (level > stR * stC) return true;
     boolean out = false;
     if (board[row][col] == 0){
       board[row][col] = level;
@@ -170,8 +189,8 @@ public class KnightBoard{
 
   //just  for updating correctly (kind of like a remove so to speak from queens)
   private void reset (int level) {
-    for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[i].length; j++) {
+    for (int i = 0; i < stR; i++) {
+      for (int j = 0; j < stC; j++) {
         if (board[i][j] > level) board[i][j] = 0;
       }
     }
@@ -198,10 +217,10 @@ public class KnightBoard{
     System.out.println(c);
     //System.out.println(c.countSolutions(0,0));*/
     KnightBoard d = new KnightBoard(7,7);
-    /*System.out.println(d.solve(0,0));
-    System.out.println(d);*/
-    System.out.println(d.countSolutions(0,0));
-    /*KnightBoard e = new KnightBoard(8,8);
+    System.out.println(d.solve(0,0));
+    System.out.println(d);
+    //System.out.println(d.countSolutions(0,0));
+    KnightBoard e = new KnightBoard(8,8);
     System.out.println(e.solve(0,0));
     System.out.println(e);
     //System.out.println(d.countSolutions(0,0));*/
