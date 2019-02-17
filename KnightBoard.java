@@ -31,8 +31,9 @@ public class KnightBoard {
     String out = "";
     for (int r = 0; r < mR; r++) {
       for (int c = 0; c < mC; c++) {
-        if (board[r][c] == 0) out += "__ ";
-        else if (board[r][c] < 10) out += " " + board[r][c] + " ";
+        if (board[r][c] == 0) out += "___ ";
+        else if (board[r][c] < 10) out += "  " + board[r][c] + " ";
+        else if (board[r][c] < 100) out += " " + board[r][c] + " ";
         else out += board[r][c] + " ";
       }
       out += "\n";
@@ -137,6 +138,18 @@ public class KnightBoard {
   }
 
   public static void main(String[] args) {
+    KnightBoard t = new KnightBoard(1,1);
+      System.out.println(t.solve(0,0)); //true duh
+      System.out.println(t);
+    KnightBoard u = new KnightBoard(2,2);
+      System.out.println(u.solve(0,0)); //false
+      System.out.println(u);
+    KnightBoard v = new KnightBoard(3,3);
+      System.out.println(v.solve(0,0)); //false
+      System.out.println(v);
+    KnightBoard w = new KnightBoard(4,4);
+      System.out.println(w.solve(0,0)); //false
+      System.out.println(w);
     KnightBoard x = new KnightBoard(5,5);
       System.out.println(x.countSolutions(0,0)); //304
       System.out.println(x.countSolutions(0,1)); // 0 no solution
@@ -145,6 +158,10 @@ public class KnightBoard {
       System.out.println(x.countSolutions(2,2)); //64
       System.out.println(x.solve(1,2)); // false
       System.out.println(x.countSolutions(1,2)); // 0 no solution
+      //System.out.println(x.solve(7,7)); // error message IllegalArgumentException
+      System.out.println(x.solve(0,0));
+      //System.out.println(x.countSolutions(0,0)); //error message IllegalStateException
+      System.out.println(x);
     KnightBoard a = new KnightBoard(6,6);
       a.solve(0,0);
       System.out.println(a);
@@ -160,6 +177,9 @@ public class KnightBoard {
     KnightBoard e = new KnightBoard(10,10);
       e.solve(0,0);
       System.out.println(e);
+    KnightBoard f = new KnightBoard(12,12);
+      System.out.println(f.solve(0,0));
+      System.out.println(f);
     //Halle-friggin-luyah
   }
 }
