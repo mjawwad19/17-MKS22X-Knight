@@ -136,8 +136,6 @@ public class KnightBoard {
     }
     return sum;
   }
-  // all solutions possible given the board calling
-
   public static void main(String[] args) {
     KnightBoard t = new KnightBoard(1,1);
       System.out.println(t.countSolutions(0,0)); //1
