@@ -2,6 +2,7 @@
 public class KnightBoard{
   private int[][] board;
   private int stR, stC;
+  private boolean stat;
   private tour[] a = {
     new tour(1,2), new tour(2,1), new tour(-2, -1), new tour(-1,-2),
     new tour(-1,2), new tour(2, -1), new tour(-2, 1), new tour(1,-2)
@@ -57,7 +58,9 @@ public class KnightBoard{
   public boolean solve(int startingRow, int startingCol){
     runOff(startingRow, startingCol);
     empty();
-    return solveH(startingRow, startingCol, 1);
+    boolean x = solveH(startingRow, startingCol, 1);
+    if (!stat) clear();
+    return x;
   }
 
   public int countSolutions(int startingRow, int startingCol){
@@ -66,7 +69,35 @@ public class KnightBoard{
     return counter(startingRow, startingCol, 1);
   }
 
-  private tour[] sortMoves (int row, int col) {
+  //simplifies solutions --> only if available can we continue
+  private boolean avail(int r, int c, int level) {
+    if(r + 1 < stR && c + 2 < stC) {
+      if (solveH(r + 1, c + 2, level)) return true;
+    }
+    if(r + 2 < stR && c + 1 < stC) {
+      if (solveH(r + 2, c + 1, level)) return true;
+    }
+    if(c - 1 >= 0 && r + 1 < stR) {
+      if (solveH(r + 1, c - 1, level)) return true;
+    }
+    if(c - 2 >= 0 && r + 1 < stR){
+      if (solveH(r + 1, c -2, level)) return true;
+    }
+    if(r - 1 >= 0 && c + 2 < stC){
+      if (solveH(r - 1, c + 2, level)) return true;
+    }
+    if(r - 2 >= 0 && c + 1 < stC) {
+      if (solveH(r - 2, c + 1, level)) return true;
+    }
+    if(r - 1 >= 0 && c - 2 >= 0) {
+      if (solveH(r - 1, c - 2, level)) return true;
+    }
+    if(r - 2 >= 0 && c - 1 >= 0) {
+      if (solveH(r - 2, c - 1, level)) return true;
+    }
+    return false;
+  }
+  /*private tour[] sortMoves (int row, int col) {
     tour[] temp = a;
     tour[] ans;
     if (row == 0) {
@@ -151,17 +182,17 @@ public class KnightBoard{
     else ans = temp;
     return ans;
   }
-
+*/
   // tail end recursion for counting solutions
   private int counter(int row, int col, int level) {
     int sum = 0;
     if (level == stR* stC) return 1;
-    tour[] s = sortMoves(row,col);
-    for (int i = 0; i < s.length; i++) {
+    //tour[] s = sortMoves(row,col);
+    for (int i = 0; i < a.length; i++) {
       try {
-        if (board[row + s[i].gR()][col + s[i].gC()] == 0) {
+        if (board[row + a[i].gR()][col + a[i].gC()] == 0) {
           board[row][col] = level;
-          sum += counter(row + s[i].gR(), col +s[i].gC(), level + 1);
+          sum += counter(row + a[i].gR(), col +a[i].gC(), level + 1);
           board[row][col] = 0;
         }
       }catch (Exception e) {}
@@ -170,28 +201,36 @@ public class KnightBoard{
   }
   //tail end recursion for touring through
   private boolean solveH(int row ,int col, int level) {
-    if (row < 0 || row >= stR|| col < 0 || col >= stC) {
-      return false;
+    if (row < 0 || col < 0 || row >= stR || col >= stC) return false;
+    if (level > stR * stC) {
+      stat = true;
+      return true;
     }
-    if (level > stR * stC) return true;
-    boolean out = false;
     if (board[row][col] == 0){
       board[row][col] = level;
-      tour[] s = sortMoves(row,col);
+      /*tour[] s = sortMoves(row,col);
       for (int i = 0; i < s.length; i++) {
-        if (solveH(row + s[i].gR(), col + s[i].gC(), level + 1)) return true;
-        reset(level);
+        if (solveH(row + s[i].gR(), col + s[i].gC(), level + 1)) return true;*/
+      level += 1;
+      if(avail(row, col, level)) return true;
+      else board[row][col] = 0;
       }
-    }
-    if (out == false) reset(level-1); //for false cases the original level is still present so go back
-    return out;
+    return false;
   }
 
   //just  for updating correctly (kind of like a remove so to speak from queens)
-  private void reset (int level) {
+  /*private void reset (int level) {
     for (int i = 0; i < stR; i++) {
       for (int j = 0; j < stC; j++) {
         if (board[i][j] > level) board[i][j] = 0;
+      }
+    }
+  }*/
+
+  private void clear() {
+    for (int i = 0; i < stR; i++) {
+      for (int j = 0; j < stC;j++) {
+        board[i][j] = 0;
       }
     }
   }
