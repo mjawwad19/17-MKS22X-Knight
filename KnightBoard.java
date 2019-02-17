@@ -77,9 +77,9 @@ public class KnightBoard {
     for (int r = 0; r < mR; r++) {
       for (int c = 0; c < mC; c++) {
         List<tour> moves = pM[r][c];
-        moves.sort(new Comparator<tour>()
+        moves.sort(new Comparator<tour>() // had to look up the documentation for this OH MY GOD JESUS NO
         {
-          @Override
+          // probably the MOST ANNOYING THING EVER YET SO SIMPLE JESUS HAD TO DRAW THIS OUT TO FIGURE WHERE I WAS SORTING HAD TO LOOK UP IF I COULD DO SOMETHING LIKE THIS OH MER GAD I HATE MY LIFE BLESS ETHAN FOR EXPLAINING I COULD DO THIS ISDOHVNBOVFVBOD
           public int compare(tour a, tour b) {
             int aM = pM[a.gR()][a.gC()].size();
             int bM = pM[b.gR()][b.gC()].size();
@@ -100,7 +100,7 @@ public class KnightBoard {
     }
     return solved;
   }
-
+  //tail end recursion for row\col\level for solve
   private boolean solveH(int row, int col, int level) {
     if (board[row][col] != 0) return false;
     board[row][col] = level;
@@ -115,13 +115,13 @@ public class KnightBoard {
     board[row][col] = 0;
     return false;
   }
-
+  //counts the number of total solutions from given position
   public int countSolutions(int startingRow, int startingCol) {
     if (!runOff(startingRow, startingCol)) throw new IllegalArgumentException();
     empty();
     return counter(startingRow, startingCol, 1);
   }
-
+  //thank god this only goes up to 6 I actually tried to deal with this for higher numbers and JUST NOPE BYE NO MORE FREEEE
   private int counter(int row, int col, int level) {
     int sum = 0;
     if (level == mR * mC) return 1;
@@ -136,9 +136,11 @@ public class KnightBoard {
     }
     return sum;
   }
+  // all solutions possible given the board calling
 
   public static void main(String[] args) {
     KnightBoard t = new KnightBoard(1,1);
+      System.out.println(t.countSolutions(0,0)); //1
       System.out.println(t.solve(0,0)); //true duh
       System.out.println(t);
     KnightBoard u = new KnightBoard(2,2);
@@ -163,6 +165,7 @@ public class KnightBoard {
       //System.out.println(x.countSolutions(0,0)); //error message IllegalStateException
       System.out.println(x);
     KnightBoard a = new KnightBoard(6,6);
+      //System.out.println(a.countSolutions(0,0)); stuck for entirity aka more than 15 seconds cuz there's too much ;-;
       a.solve(0,0);
       System.out.println(a);
     KnightBoard b = new KnightBoard(7,7);
